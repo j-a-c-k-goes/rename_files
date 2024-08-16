@@ -1,4 +1,14 @@
 '''
+    Program: rename_files.py
+    
+    Objective: automate renaming of files named with delimiter space
+    
+    Design:
+    
+    Test:         run in test environment, 
+                  (from test env) run with dry-run-off
+    
+    Modification: target more delimiters
 '''
 import sys
 import os
@@ -89,14 +99,17 @@ def LookForNamingViolations(path, mode:str):
                      os.system(f'mv {root}/{file} -> {root}/{naming_fix}')
                      tmp_log_statements_files.append(log_statement)
                      pass
-         
          WriteLog(f'/tmp/{year}{month}{day}{hour}{minute}-log-files-renamed.log', mode, tmp_log_statements_files)
          WriteLog(f'/tmp/{year}{month}{day}{hour}{minute}-log-directories-renamed.log', mode, tmp_log_statements_dirs)
          Msg('files-renamed', files_in_naming_violation)
          Msg('directories-renamed', directories_in_naming_violation)
          Msg('total', (files_in_naming_violation+directories_in_naming_violation))
-   except Exception as error:
-      print(error)
+except KeyboardInterrupt as exception:   
+      Msg('action', 'process stopped intentionally. writing log up to this point') 
+      Msg('exception', exception)
+except Exception as exception:
+      Msg('action', 'non-interrupt has halted process.')      
+      Msg('exception', exception)
       return -1
 #---------------------------------------------------------------------------
 def WriteLog(file_name, mode, log_statements:list):
@@ -115,8 +128,8 @@ def WriteLog(file_name, mode, log_statements:list):
                source_file.write(f'[{index}]    {log_statement}\n')
          print(f'Done writing {file_name}.')
    except FileNotFoundError as fnf_exception:
-      Msg('exception', f'{file_name} not found. Check path or spelling.')
-      print(fnf_exception)
+      Msg('action', f'{file_name} not found. Check path or spelling.')
+      Msg('exception', fnf_exception)
    except Exception as general_exception:
       Msg('exception', 'Consult error message below for details.')
       print(general_exception)

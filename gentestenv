@@ -1,0 +1,25 @@
+#!/bin/bash
+###############################################
+# METHOD
+# program:   gentestenv
+# objective: build test environment with files
+# design:    a daemon you have to summon
+# test:      [ thinking about tests ]
+# mod:       environment diversity
+#             - path as an argument
+#             - include delimiter argument
+#             - generate mixed environments 
+#                - sub-directories relative to delimiter
+#                - and one aggregate directory 
+#                  > consists of all delimiter types
+#                  > link all files from sub-dirs to aggregate directory
+###############################################
+# MAIN ########################################
+default_path=$HOME/rename_files               # set a default path
+mkdir -v -m 770 testenv                       # make a directory named testenv
+cd $default_path                              # change into directory
+for file in {1..64};
+do 
+   touch testenv/"file named $file";          # add a file
+done
+cd -                                          # go to last destination
