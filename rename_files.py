@@ -104,13 +104,13 @@ def LookForNamingViolations(path, mode:str):
          Msg('files-renamed', files_in_naming_violation)
          Msg('directories-renamed', directories_in_naming_violation)
          Msg('total', (files_in_naming_violation+directories_in_naming_violation))
-except KeyboardInterrupt as exception:   
-      Msg('action', 'process stopped intentionally. writing log up to this point') 
-      Msg('exception', exception)
-except Exception as exception:
-      Msg('action', 'non-interrupt has halted process.')      
-      Msg('exception', exception)
-      return -1
+   except KeyboardInterrupt as exception:   
+         Msg('action', 'process stopped intentionally. writing log up to this point') 
+         Msg('exception', exception)
+   except Exception as exception:
+         Msg('action', 'non-interrupt has halted process.')      
+         Msg('exception', exception)
+         return -1
 #---------------------------------------------------------------------------
 def WriteLog(file_name, mode, log_statements:list):
    try:
