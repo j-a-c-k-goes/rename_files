@@ -1,24 +1,27 @@
+''' IMPORTS '''
 import sys
-
 import times
+from msg import Msg
 
-
-# -------------------------------------------------------------------------
-def Usage():
-   print(f'[fix]        Specify whether or not to run the script in dry-run mode.')
-   print(f'[usage]      <script-name> <dry-run-on|dry-run-off> <some-path>')
-   print(f'[example]    rename_files.py dry-run-on /home\n')
-   
-#---------------------------------------------------------------------------
-def Msg(type, msg):
-   print(f'[{type}]    {msg}')
-
-#---------------------------------------------------------------------------
-def WriteLog(file_name, mode, log_statements:list):
+''' ROUTINE/METHOD '''
+def WriteLog(file_name:str, mode:str, log_statements:list):
+   '''
+      @method WriteLog
+      @param file_name:string    # repesents output file
+      @param mode:string         # represents mode program is running in
+      @param log_statements:list # represents list of log statements to write
+      @return void
+      @desc Method attempts to log the session to an output file. 
+   '''
    try:
       with open(file_name, 'w') as source_file:
+         year     = times.year
+         month    = times.month
+         day      = times.month
+         hour     = times.hour
+         minute   = times.minute
          source_file.write('---\n')
-         source_file.write(f'TIMESTAMP {times.year}/{times.month}/{times.day} @ {times.hour}:{times.minute}\n')
+         source_file.write(f'TIMESTAMP {year}/{month}/{day} @ {hour}:{minute}\n')
          source_file.write(f'ran {sys.argv[0]} in {mode} mode\n'.upper())
          source_file.write('---\n')
          if len(log_statements) < 1:
@@ -33,5 +36,5 @@ def WriteLog(file_name, mode, log_statements:list):
       Msg('action', f'{file_name} not found. Check path or spelling.')
       Msg('exception', fnf_exception)
    except Exception as general_exception:
-      Msg('exception', 'Consult error message below for details.')
-      print(general_exception)
+      Msg('action', 'Consult error message below for details.')
+      Msg('exception', general_exception)

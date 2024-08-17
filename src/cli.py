@@ -1,17 +1,26 @@
+''' IMPORTS '''
 import os
 import sys
+from write_log import WriteLog
+from msg import Msg
+from usage import Usage
 
-import logs
-
-def CheckArgs():
+''' METHOD/ROUTINE '''
+def CheckArgs() -> dict:
+   '''
+      @method CheckArgs
+      @param void
+      @return dict {status, mode, path}
+      @desc Checks command line args. Returns a dictionary.
+   '''
    try:
       arg_check_passed = bool()
       if len(sys.argv) < 3:
-         logs.Msg('error', 'Not enough arguments.')
+         Msg('error', 'Not enough arguments.')
          arg_check_passed = False   
-         logs.Usage()
+         Usage()
       else:
-         logs.Msg('update', 'Args present. Checking for correctness.')
+         Msg('update', 'Args present. Checking for correctness.')
          args_to_check  = [ sys.argv[1], sys.argv[2] ]
          DRY_RUN_ON     = args_to_check[0].lower() == 'dry-run-on'
          DRY_RUN_OFF    = args_to_check[0].lower() == 'dry-run-off'
@@ -22,15 +31,16 @@ def CheckArgs():
             return { 'status': arg_check_passed, 'mode': args_to_check[0], 'path': args_to_check[1] }
          else:
             if (valid_mode == False):
-               logs.Msg('error', f'Invalid mode "{args_to_check[0]}".')
+               pass
+               Msg('error', f'Invalid mode {args_to_check[0].upper()}')
             if (valid_path == False):
-               logs.Msg('error', f'Non-existing path "{args_to_check[1]}".')
+               pass
+               Msg('error', f'Non-existing path {args_to_check[1].upper()}')
             arg_check_passed = False
-            logs.Usage()
+            Usage()
       return { 'status': arg_check_passed, 'mode': None, 'path': None }
    except FileNotFoundError as exception:
-      logs.Msg('exception', f'{sys.argv[2]} is not a vaild path')
-      print(exception)
+      Msg('update', f'{sys.argv[2]} is not a vaild path')
+      Msg('exception', exception)
    except Exception as exception:
-      logs.Msg('exception','See exception message.')
-      print(exception)
+      Msg('exception', exception)
