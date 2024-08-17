@@ -20,6 +20,7 @@ mkdir -v -m 770 testenv                       # make a directory named testenv
 cd $default_path                              # change into directory
 for file in {1..64};
 do 
-   touch testenv/"file named $file";          # add a file
+   mkdir testenv/"dir named like this $file"; # add a directory
+   touch testenv/"file named $file.txt";      # add a file
 done
-cd -                                          # go to last destination
+cd ..                                          # go to back one level
